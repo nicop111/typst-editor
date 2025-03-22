@@ -1,5 +1,6 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electron', {
-    ipcRenderer: ipcRenderer
+    onFolderSelected: (callback) => ipcRenderer.on('folder-selected', (_, folderStructure) => callback(folderStructure)),
+    openFile: (filePath) => ipcRenderer.invoke('open-file', filePath)
 });

@@ -1,0 +1,2 @@
+1. Dowload binary from https://github.com/typst/typst/releases/ something like "typst-x86_64-unknown-linux-musl.tar.xz" 
+2. unpack binary with "tar -xf typst-x86_64-unknown-linux-musl.tar.xz"
