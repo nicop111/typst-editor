@@ -30,6 +30,11 @@ app.whenReady().then(() => {
 
     mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
+    mainWindow.webContents.on('did-finish-load', () => {
+        console.log("Main window loaded successfully");
+        mainWindow.webContents.openDevTools(); // Automatically open developer tools
+    });
+
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
@@ -51,6 +56,18 @@ app.whenReady().then(() => {
                     }
                 },
                 { role: 'quit' }
+            ]
+        },
+        {
+            label: 'View',
+            submenu: [
+                {
+                    label: 'Toggle Developer Tools',
+                    accelerator: process.platform === 'darwin' ? 'Cmd+Option+I' : 'Ctrl+Shift+I',
+                    click: () => {
+                        mainWindow.webContents.toggleDevTools();
+                    }
+                }
             ]
         }
     ]);

@@ -18,10 +18,15 @@
             background-color: #2e2e2e;
             color: white;
             overflow-y: auto;
+            z-index: 1; /* Ensure sidebar is above other elements */
         }
         #editor {
-            flex: 1;
+            flex-grow: 1; /* Ensure the editor expands to fill available space */
             height: 100vh;
+            min-width: 300px; /* Prevent the editor from collapsing to a very small width */
+            border: 1px solid #ccc; /* Added for debugging */
+            background-color: #f9f9f9; /* Added for better visibility */
+            z-index: 0; /* Ensure editor is below the sidebar */
         }
         .file {
             padding: 5px 10px;
@@ -31,15 +36,20 @@
             background-color: #3e3e3e;
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.38.0/min/vs/loader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js"></script>
 </head>
 <body>
     <div id="sidebar"></div>
     <div id="editor"></div>
     <script>
-        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.38.0/min/vs' }});
+        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs' }});
         require(["vs/editor/editor.main"], function () {
-            monaco.editor.create(document.getElementById("editor"), {
+            const editorElement = document.getElementById("editor");
+            if (!editorElement) {
+                console.error("Editor element not found");
+                return;
+            }
+            monaco.editor.create(editorElement, {
                 value: "Hello, Typst!",
                 language: "plaintext",
                 theme: "vs-light"
